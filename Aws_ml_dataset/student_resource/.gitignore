@@ -1,0 +1,68 @@
+# ── Dataset (too large for Git — download separately) ────────────────────────
+dataset/
+
+# ── Generated checkpoints (rebuilt by running the notebook) ──────────────────
+models/
+output/
+
+# ── Python virtual environment ────────────────────────────────────────────────
+venv/
+.venv/
+env/
+ENV/
+
+# ── Python cache ──────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+*.pyd
+.Python
+
+# ── Jupyter notebook checkpoints ─────────────────────────────────────────────
+.ipynb_checkpoints/
+*/.ipynb_checkpoints/
+
+# ── Notebook outputs (optional — remove this line if you want to commit outputs)
+# Uncomment to strip cell outputs before committing:
+# *.ipynb
+
+# ── macOS metadata ────────────────────────────────────────────────────────────
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+**/.DS_Store
+
+# ── IDE / editor files ────────────────────────────────────────────────────────
+.vscode/settings.json
+.idea/
+*.swp
+*.swo
+*~
+
+# ── Kiro IDE internal files (keep specs, ignore settings) ────────────────────
+.kiro/settings/
+
+# ── Logs ─────────────────────────────────────────────────────────────────────
+*.log
+
+# ── Compiled / binary artifacts ──────────────────────────────────────────────
+*.egg-info/
+dist/
+build/
+*.egg
+
+# ── Large binary files that should not be committed ──────────────────────────
+*.pkl
+*.npy
+*.npz
+*.parquet
+*.h5
+*.hdf5
+
+# ── Temp files ────────────────────────────────────────────────────────────────
+tmp/
+temp/
+*.tmp
