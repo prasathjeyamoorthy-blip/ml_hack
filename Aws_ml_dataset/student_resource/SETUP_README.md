@@ -6,24 +6,35 @@ This guide explains how to set up the environment and run the full ML pipeline e
 
 ## Prerequisites
 
-- Linux or macOS (tested on Fedora Linux)
+- **Linux, macOS, or Windows** (all supported)
 - Python 3.11 (required — other versions may have compatibility issues)
 - At least **32 GB RAM** recommended
 - At least **20 GB free disk space** for checkpoints and output files
 
 Check your Python version:
 ```bash
-python3.11 --version
+python3.11 --version   # Linux / macOS
+python --version        # Windows (if Python 3.11 is your default)
 ```
 
-If Python 3.11 is not installed on Fedora:
+Install Python 3.11 if needed:
+
+**Fedora Linux:**
 ```bash
 sudo dnf install python3.11
 ```
 
-On Ubuntu/Debian:
+**Ubuntu/Debian:**
 ```bash
 sudo apt install python3.11 python3.11-venv
+```
+
+**Windows:**
+Download from https://www.python.org/downloads/release/python-3119/ — install with "Add to PATH" checked.
+
+**macOS:**
+```bash
+brew install python@3.11
 ```
 
 ---
@@ -60,44 +71,50 @@ All files are tab-separated (`.tsv`). Do **not** open them in Excel or they may 
 
 ## Step 3: Create the Python virtual environment
 
-From inside the `student_resource/` directory:
-
+**Linux / macOS:**
 ```bash
 python3.11 -m venv venv --prompt "entity-resolution"
-```
-
-Activate it:
-```bash
 source venv/bin/activate
-```
-
-Install all dependencies:
-```bash
 pip install --upgrade pip
 pip install -r requirements.txt
-```
-
-Register the kernel so Jupyter/VS Code can see it:
-```bash
 python -m ipykernel install --user --name "entity-resolution" --display-name "Entity Resolution (Python 3.11)"
 ```
+
+**Windows (Command Prompt):**
+```cmd
+py -3.11 -m venv venv --prompt "entity-resolution"
+venv\Scripts\activate
+pip install --upgrade pip
+pip install -r requirements.txt
+python -m ipykernel install --user --name "entity-resolution" --display-name "Entity Resolution (Python 3.11)"
+```
+
+**Windows (PowerShell):**
+```powershell
+py -3.11 -m venv venv --prompt "entity-resolution"
+.\venv\Scripts\Activate.ps1
+pip install --upgrade pip
+pip install -r requirements.txt
+python -m ipykernel install --user --name "entity-resolution" --display-name "Entity Resolution (Python 3.11)"
+```
+
+> **Windows note:** If `Activate.ps1` is blocked, run `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned` first.
 
 ---
 
 ## Step 4: Update the BASE path in the notebook
 
-Open `business_entity_resolution.ipynb` and find **Section 0 → Constants cell**. Change the `BASE` path to match where you placed the project on your machine:
+**No manual path change needed.** The notebook auto-detects the project root by looking for the `dataset/` folder starting from the notebook's working directory.
+
+As long as you open the notebook from inside the `student_resource/` folder (or place it there), `BASE` will be set correctly on any OS — Linux, macOS, or Windows.
+
+If auto-detection fails (e.g., you moved the notebook to a different folder), you'll see an assertion error pointing to the missing `dataset/` folder. In that case, manually set `BASE` at the top of Section 0:
 
 ```python
-# Change this to your actual path
-BASE = Path("/your/path/to/student_resource")
+# Manual override — uncomment and edit if auto-detection fails
+# BASE = Path(r"C:\Users\yourname\projects\student_resource")    # Windows
+# BASE = Path("/home/yourname/projects/student_resource")        # Linux/macOS
 ```
-
-For example:
-- Linux: `Path("/home/username/projects/student_resource")`
-- macOS: `Path("/Users/username/projects/student_resource")`
-
-This is the **only line you need to change** in the entire notebook.
 
 ---
 
@@ -110,10 +127,19 @@ This is the **only line you need to change** in the entire notebook.
 4. Run All Cells (`Ctrl+Shift+P` → "Run All Cells") or run cell by cell
 
 **Option B — Jupyter in browser:**
+
+Linux/macOS:
 ```bash
 source venv/bin/activate
 jupyter notebook business_entity_resolution.ipynb
 ```
+
+Windows:
+```cmd
+venv\Scripts\activate
+jupyter notebook business_entity_resolution.ipynb
+```
+
 Then select kernel: `Entity Resolution (Python 3.11)`
 
 ---
@@ -170,6 +196,10 @@ student_resource/
 
 The validator must print `PASS` — if it doesn't, do not submit.
 
+> **Note:** The notebook runs the validator automatically using `sys.executable` — no need to run it manually. If you do want to run it from the terminal:
+> - Linux/macOS: `python3 utils/validate_submission.py --matching output/matching_results.tsv --candidate output/candidate_pairs.tsv --test-dir dataset/test`
+> - Windows: `python utils\validate_submission.py --matching output\matching_results.tsv --candidate output\candidate_pairs.tsv --test-dir dataset\test`
+
 ---
 
 ## Troubleshooting
@@ -195,7 +225,27 @@ Then reload VS Code window.
 - Make sure you are using the **Python 3.11** kernel, not Python 3.13 or 3.14
 
 **Wrong BASE path**
-If you see `FileNotFoundError`, update the `BASE` path in Section 0 to match your directory.
+If you see `FileNotFoundError` or an assertion error about `dataset/` not found:
+- Make sure the notebook is opened from inside the `student_resource/` folder
+- Or manually set `BASE` at the top of Section 0:
+  ```python
+  BASE = Path(r"C:\Users\yourname\projects\student_resource")   # Windows
+  BASE = Path("/home/yourname/projects/student_resource")        # Linux/macOS
+  ```
+
+**Windows: `jellyfish` install error**
+If you see a build error on Windows, try:
+```cmd
+pip install jellyfish --pre
+```
+
+**Windows: `rapidfuzz` install error**
+```cmd
+pip install rapidfuzz --only-binary :all:
+```
+
+**Windows: path separator issues**
+All paths use `pathlib.Path` which handles `\` vs `/` automatically. You should not encounter any path separator errors.
 
 ---
 

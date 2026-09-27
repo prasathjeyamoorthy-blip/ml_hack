@@ -639,7 +639,8 @@ def run_validator(
     log_path="output/validation_pass.log",
 ) -> bool:
     """
-    Run: python3 utils/validate_submission.py --matching ... --candidate ... --test-dir ...
+    Run: sys.executable utils/validate_submission.py --matching ... --candidate ... --test-dir ...
+    (uses sys.executable for cross-platform compatibility — Windows/Linux/macOS)
     Save stdout to log_path.
     Returns True if exit code 0. Raises SubmissionValidationError after 3 failures.
     """

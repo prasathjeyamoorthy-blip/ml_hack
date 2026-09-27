@@ -270,7 +270,7 @@ Stage 1 (current) is documentation and architecture only. No implementation code
 
 #### Acceptance Criteria
 
-1. THE Entity_Resolution_System SHALL run `utils/validate_submission.py` with the command `python3 utils/validate_submission.py --matching output/matching_results.tsv --candidate output/candidate_pairs.tsv --test-dir dataset/test` before any submission is made to the challenge portal.
+1. THE Entity_Resolution_System SHALL run `utils/validate_submission.py` with the command `python utils/validate_submission.py --matching output/matching_results.tsv --candidate output/candidate_pairs.tsv --test-dir dataset/test` (use `python3` on Linux/macOS or the venv's Python executable) before any submission is made to the challenge portal.
 2. WHEN `utils/validate_submission.py` exits with code 0, THE Entity_Resolution_System SHALL proceed to submission.
 3. WHEN `utils/validate_submission.py` exits with a non-zero code or reports a FAIL issue, THE Entity_Resolution_System SHALL correct the identified issues and re-run the validator; THE Entity_Resolution_System SHALL NOT submit until the validator exits with code 0.
 4. IF the validator still does not exit with code 0 after 3 correction attempts, THEN THE Entity_Resolution_System SHALL halt and record the unresolved validator errors in `docs/open_questions.md` before any submission attempt.

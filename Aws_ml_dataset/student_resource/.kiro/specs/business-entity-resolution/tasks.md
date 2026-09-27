@@ -110,7 +110,7 @@ All implementation goes into `business_entity_resolution.ipynb`. Tasks follow th
   - Create `output/` directory if it does not exist
   - Implement `write_matching_results(test_s1_ids, matched, path)` — one row per test S1 entity in original order; empty string (not nan/None) for no-match; comma-separated matched IDs with no trailing comma and no whitespace around separators; sorted entity_ids within each row for determinism
   - Implement `write_candidate_pairs(test_s1_ids, candidates, path)` — same format rules; every entity_id in matching_results must appear here; empty string for zero-candidate entities
-  - Implement `run_validator(matching, candidate, test_dir, log_path)` — runs `python3 utils/validate_submission.py ...` via subprocess; saves stdout to log_path; returns True if exit code 0; raises after 3 failures
+  - Implement `run_validator(matching, candidate, test_dir, log_path)` — runs `utils/validate_submission.py` via `subprocess` using `sys.executable` (cross-platform, works on Windows/Linux/macOS); saves stdout to log_path; returns True if exit code 0; raises after 3 failures
   - Add execution cell: write both output files; run validator; assert exit code 0; print PASS confirmation
   - _Requirements: 13, 14, 15_
 
