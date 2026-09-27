@@ -102,19 +102,52 @@ python -m ipykernel install --user --name "entity-resolution" --display-name "En
 
 ---
 
-## Step 4: Update the BASE path in the notebook
+## Step 4: Path Configuration
 
-**No manual path change needed.** The notebook auto-detects the project root by looking for the `dataset/` folder starting from the notebook's working directory.
+### Auto-detection (recommended — usually no action needed)
 
-As long as you open the notebook from inside the `student_resource/` folder (or place it there), `BASE` will be set correctly on any OS — Linux, macOS, or Windows.
+**No manual path change is needed in most cases.** The notebook's Section 0 auto-detects the project root by walking up the directory tree from the notebook's working directory until it finds the `dataset/` folder.
 
-If auto-detection fails (e.g., you moved the notebook to a different folder), you'll see an assertion error pointing to the missing `dataset/` folder. In that case, manually set `BASE` at the top of Section 0:
+As long as the notebook file (`business_entity_resolution.ipynb`) is inside the `student_resource/` folder — which is the default — `BASE` is set correctly on Windows, Linux, and macOS.
+
+### All paths in the notebook (Section 0 constants cell)
+
+Every path in the notebook is derived from a single variable `BASE`. Here is the complete list:
+
+| Variable | Path | Notes |
+|----------|------|-------|
+| `BASE` | `student_resource/` | Auto-detected project root |
+| `TRAIN_S1_PATH` | `BASE/dataset/train/train_source1.tsv` | |
+| `TRAIN_S2_PATH` | `BASE/dataset/train/train_source2.tsv` | |
+| `TRAIN_S3_PATH` | `BASE/dataset/train/train_source3.tsv` | |
+| `TRAIN_GT_PATH` | `BASE/dataset/train/train_ground_truth.tsv` | |
+| `TEST_S1_PATH` | `BASE/dataset/test/test_source1.tsv` | |
+| `TEST_S2_PATH` | `BASE/dataset/test/test_source2.tsv` | |
+| `TEST_S3_PATH` | `BASE/dataset/test/test_source3.tsv` | |
+| `MODELS_DIR` | `BASE/models/` | Created automatically |
+| `OUTPUT_DIR` | `BASE/output/` | Created automatically |
+
+**You only need to touch one thing:** if auto-detection fails, set `BASE` manually at the **top of the Section 0 constants cell**:
 
 ```python
-# Manual override — uncomment and edit if auto-detection fails
-# BASE = Path(r"C:\Users\yourname\projects\student_resource")    # Windows
-# BASE = Path("/home/yourname/projects/student_resource")        # Linux/macOS
+# ── MANUAL OVERRIDE ── uncomment ONE of these if auto-detection fails ─────────
+# BASE = Path(r"C:\Users\yourname\projects\student_resource")  # Windows
+# BASE = Path("/home/yourname/projects/student_resource")       # Linux
+# BASE = Path("/Users/yourname/projects/student_resource")      # macOS
 ```
+
+### How to know if auto-detection worked
+
+When you run Section 0, you will see:
+```
+Project root (BASE): /path/to/student_resource
+```
+
+If it prints the wrong path, or if you see:
+```
+AssertionError: dataset/ not found under ...
+```
+then uncomment the manual override above with the correct path.
 
 ---
 
